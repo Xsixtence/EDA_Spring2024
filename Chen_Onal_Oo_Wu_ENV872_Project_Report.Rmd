@@ -141,11 +141,7 @@ ggplot(data, aes(x = Invgro, y = Popgro)) +
 labs(title = "Investment and Population")+
   geom_line(color = "brown") 
 
-# Correlation Matrix
-correlation_maxtrix <- cor(data[,c("GDPgro","Invgro","Popgro","Electricitygro")])
 
-#Visualizing Correlation matrix
-corrplot(correlation_maxtrix, method = "circle")
 ```
 
 Explanation:
@@ -156,6 +152,17 @@ Explanation:
 - In the fifth plot, Investment growth is represented on the x-axis, and Electricity consumption is represented on the y-axis. There appears to be a positive relationship between the two variables; higher investments correspond to higher electricity consumpton. 
 - In the sixth plot, population growth is represented on the x-axis, and Electricity consumption is represented on the y-axis. There appears not to be a positive relationship between the two variables. 
 - In the seventh plot, Investment growth is represented on the x-axis, and Population growth is represented on the y-axis. There appears not to be a significant relationship between the two variables. 
+
+```{r correlation matrix, tidy=TRUE, error=FALSE, echo=FALSE}
+#Correlation Matrix
+  growth_data <- data[, c("GDPgro", "Popgro", "Invgro", "Electricitygro")]
+  correlation_matrix <- cor(growth_data, use = "complete.obs")
+  corrplot(correlation_matrix, method = "color", addCoef.col = "black",
+           tl.col = "black", tl.srt = 45, cl.pos = "b", type = "upper",
+           title = "Correlation Matrix of Growth Metrics")
+```
+Explanation: 
+The heatmap displays the correlation coefficients between GDP growth, population growth, investment growth, and electricity consumption growth in Turkiye. Dark blue indicates strong positive correlations, dark red signifies strong negative correlations, and lighter shades denote weaker relationships. Notably, investment growth and electricity consumption exhibit a strong positive correlation with GDP growth, while population growth shows a negligible relationship. This visual suggests that investment and electricity consumption are closely tied to economic performance.
 
 # Analysis
 ## Time Series Analysis
@@ -195,8 +202,6 @@ plot(ts_Elecdata.decomp, main = "Electricity Consumption Growth Over Time")
 
 ```
 
-Merve, there is eight plot above.
-
 - **First Plot**: In the first plot, decomposed GDP growth data is presented. The data does not exhibit seasonality due to its yearly nature, and there is also no discernible upward or downward trend. However, following the Covid-19 pandemic, the shock creates outlier effects on the data. 
 - **Second Plot**: In the second plot, decomposed Investment growth data is presented. The data does not exhibit seasonality due to its yearly nature, and there is also no discernible upward or downward trend. However, following the Covid-19 pandemic, the shock creates outlier effects on the data. 
 - **Third Plot**: In the third plot, decomposed Population growth data is presented. The data does not exhibit seasonality due to its yearly nature, and there is also no discernible upward or downward trend. However, following the Covid-19 pandemic, the shock creates outlier effects on the data. 
@@ -206,7 +211,7 @@ Merve, there is eight plot above.
 - **Seventh Plot**: In the seventh plot, Population growth time series data is presented. The data does exhibit fluctuations, but apart from a few years, it shows an increase. 
 - **Eighth Plot**: In the eighth plot, Electricity consumption growth time series data is presented. The data does exhibit fluctuations, but apart from a few years, it shows an increase.
 
-## Forecasting
+## Extracting Trend Components
 
 
 ```{r tidy=TRUE, echo=FALSE, error=FALSE}
@@ -245,23 +250,6 @@ There is no clear relationship between population and electricity consumption gr
 There is no clear relationship between population and investment growth.
 
 ## Regression Analysis
-### Correlation Matrix
-
-```{r correlation matrix, tidy=TRUE, error=FALSE, echo=FALSE}
-#Siyao
-#Need to check
-
-  growth_data <- data[, c("GDPgro", "Popgro", "Invgro", "Electricitygro")]
-  correlation_matrix <- cor(growth_data, use = "complete.obs")
-  #only corrpplot part is needed here. We don't need to specify other parts.
-  corrplot(correlation_matrix, method = "color", addCoef.col = "black",
-           tl.col = "black", tl.srt = 45, cl.pos = "b", type = "upper",
-           title = "Correlation Matrix of Growth Metrics")
-```
-
-Explanation:
-The heatmap displays the correlation coefficients between GDP growth, population growth, investment growth, and electricity consumption growth in Turkiye. Dark blue indicates strong positive correlations, dark red signifies strong negative correlations, and lighter shades denote weaker relationships. Notably, investment growth and electricity consumption exhibit a strong positive correlation with GDP growth, while population growth shows a negligible relationship. This visual suggests that investment and electricity consumption are closely tied to economic performance.
-
 ### regression plots
 
 ```{r regression analysis, tidy=TRUE, error=FALSE, echo=FALSE}
