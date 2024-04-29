@@ -141,6 +141,11 @@ ggplot(data, aes(x = Invgro, y = Popgro)) +
 labs(title = "Investment and Population")+
   geom_line(color = "brown") 
 
+# Correlation Matrix
+correlation_maxtrix <- cor(data[,c("GDPgro","Invgro","Popgro","Electricitygro")])
+
+#Visualizing Correlation matrix
+corrplot(correlation_maxtrix, method = "circle")
 ```
 
 Explanation:
@@ -157,6 +162,7 @@ Explanation:
 
 ```{r time.series, tidy=TRUE, error=FALSE, echo=FALSE}
 #Merve + Ye
+#Need to check
 
 # creating time series for GDP data
 ts_GDPdata <- ts(data$GDPgro, start = min(1999), end = max(2022), frequency = 24)
@@ -180,19 +186,12 @@ plot(ts_Popdata.decomp)
 ts_Elecdata.decomp <- stl(ts_Elecdata, s.window = "periodic")
 plot(ts_Elecdata.decomp)
 
-
-#Merve please check this (by Ye):
-#Ye's code
 plot(ts_GDPdata.decomp, main = "GDP Growth Over Time")
 plot(ts_Invdata.decomp, main = "Investment Growth Over Time")
 plot(ts_Popdata.decomp, main = "Population Growth Over Time")
 plot(ts_Elecdata.decomp, main = "Electricity Consumption Growth Over Time")
 
-#Merve's Original code
-#plot(data$GDPgro, main = "GDP Growth Over Time", xlab = "Years", ylab = "GDP Growth")
-#plot(data$Invgro, main = "Investment Growth Over Time", xlab = "Years", ylab = "Investment growth")
-#plot(data$Popgro, main = "Population Growth Over Time", xlab = "Years", ylab = "Population growth")
-#plot(data$Electricitygro, main = "Electricity Consumption Growth Over Time", xlab = "Years", ylab = "electricity consumption growth")
+
 
 ```
 
@@ -224,12 +223,6 @@ plot(seasonal_GDP)
 # ACF plot
 acf(ts_GDPdata)
 
-# Compute correlation matrix
-correlation_matrix <- cor(data[, c("GDPgro", "Invgro", "Popgro", "Electricitygro")])
-
-# Visualize correlation matrix
-corrplot(correlation_matrix, method = "circle")
-
 # Plot time series
 plot(ts_GDPdata, main = "GDP Growth Over Time", xlab = "Year", ylab = "GDP Growth")
 lines(ts_Invdata, col = "blue")
@@ -237,26 +230,8 @@ lines(ts_Popdata, col = "red")
 lines(ts_Elecdata, col = "green")
 legend("topright", legend = c("GDP Growth", "Investment Growth", "Population Growth", "Electricity Growth"), col = c("black", "blue", "red", "green"), lty = 1)
 
-# Arima
-arima_model_GDP <- auto.arima(ts_GDPdata)
-print(summary(arima_model_GDP))
-
-# Model diagnostics
-checkresiduals(arima_model_GDP)
-
-# Forecasting
-forecast_values_GDP <- forecast(arima_model_GDP, h = 5)  # Forecasting 5 future periods
-
-plot(forecast_values_GDP, main = "Forecast for GDP Growth Time Series", include = 1, xaxt = "n")  # Suppress x-axis plotting
-axis(1, at = seq(2023, 2028, by = 1), labels = seq(2023, 2028, by = 1))  # Add years to x-axis
-
 
 ```
-Explanation:
-1: residuals from arima: The residuals are uncorrelated. The residuals have zero mean.
-2: acf: The autocorrelation function is the correlation of the residuals (as a time series) with its own lags. There may be a correlation.
-3: residuals
-4: forecast: it is expected to fall in the short term but in the medium term ir will increase.
 
 ### Summary and Conclusions
 
@@ -274,6 +249,7 @@ There is no clear relationship between population and investment growth.
 
 ```{r correlation matrix, tidy=TRUE, error=FALSE, echo=FALSE}
 #Siyao
+#Need to check
 
   growth_data <- data[, c("GDPgro", "Popgro", "Invgro", "Electricitygro")]
   correlation_matrix <- cor(growth_data, use = "complete.obs")
