@@ -228,14 +228,6 @@ plot(seasonal_GDP)
 # ACF plot
 acf(ts_GDPdata)
 
-# Plot time series
-plot(ts_GDPdata, main = "GDP Growth Over Time", xlab = "Year", ylab = "GDP Growth")
-lines(ts_Invdata, col = "blue")
-lines(ts_Popdata, col = "red")
-lines(ts_Elecdata, col = "green")
-legend("topright", legend = c("GDP Growth", "Investment Growth", "Population Growth", "Electricity Growth"), col = c("black", "blue", "red", "green"), lty = 1)
-
-
 ```
 
 ### Summary and Conclusions
@@ -248,6 +240,7 @@ There is a positive relationship between investment growth and electricity consu
 There is a negative relationship between population and GDP growth. 
 There is no clear relationship between population and electricity consumption growth. 
 There is no clear relationship between population and investment growth.
+GDP Forecast for next 5 years is exhibited.
 
 ## Regression Analysis
 ### regression plots
